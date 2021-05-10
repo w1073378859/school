@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.PrescriptionDetailMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.PrescriptionDetail">
+    <!--@mbg.generated-->
+    <!--@Table prescription_detail-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="prescription_id" jdbcType="BIGINT" property="prescriptionId" />
+    <result column="registry_id" jdbcType="BIGINT" property="registryId" />
+    <result column="drug_id" jdbcType="BIGINT" property="drugId" />
+    <result column="patient_id" jdbcType="BIGINT" property="patientId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="is_medicare" jdbcType="TINYINT" property="isMedicare" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="pay_price" jdbcType="DECIMAL" property="payPrice" />
+    <result column="medicare_price" jdbcType="DECIMAL" property="medicarePrice" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, prescription_id, registry_id, drug_id, patient_id, amount, is_medicare, price, 
+    pay_price, medicare_price, created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from prescription_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from prescription_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.PrescriptionDetail" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into prescription_detail (prescription_id, registry_id, drug_id, 
+      patient_id, amount, is_medicare, 
+      price, pay_price, medicare_price, 
+      created_time, updated_time)
+    values (#{prescriptionId,jdbcType=BIGINT}, #{registryId,jdbcType=BIGINT}, #{drugId,jdbcType=BIGINT}, 
+      #{patientId,jdbcType=BIGINT}, #{amount,jdbcType=INTEGER}, #{isMedicare,jdbcType=TINYINT}, 
+      #{price,jdbcType=DECIMAL}, #{payPrice,jdbcType=DECIMAL}, #{medicarePrice,jdbcType=DECIMAL}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.PrescriptionDetail" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into prescription_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="prescriptionId != null">
+        prescription_id,
+      </if>
+      <if test="registryId != null">
+        registry_id,
+      </if>
+      <if test="drugId != null">
+        drug_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="isMedicare != null">
+        is_medicare,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="payPrice != null">
+        pay_price,
+      </if>
+      <if test="medicarePrice != null">
+        medicare_price,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="prescriptionId != null">
+        #{prescriptionId,jdbcType=BIGINT},
+      </if>
+      <if test="registryId != null">
+        #{registryId,jdbcType=BIGINT},
+      </if>
+      <if test="drugId != null">
+        #{drugId,jdbcType=BIGINT},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="isMedicare != null">
+        #{isMedicare,jdbcType=TINYINT},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="payPrice != null">
+        #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="medicarePrice != null">
+        #{medicarePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.test.pojo.PrescriptionDetail">
+    <!--@mbg.generated-->
+    update prescription_detail
+    <set>
+      <if test="prescriptionId != null">
+        prescription_id = #{prescriptionId,jdbcType=BIGINT},
+      </if>
+      <if test="registryId != null">
+        registry_id = #{registryId,jdbcType=BIGINT},
+      </if>
+      <if test="drugId != null">
+        drug_id = #{drugId,jdbcType=BIGINT},
+      </if>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="isMedicare != null">
+        is_medicare = #{isMedicare,jdbcType=TINYINT},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="payPrice != null">
+        pay_price = #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="medicarePrice != null">
+        medicare_price = #{medicarePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.test.pojo.PrescriptionDetail">
+    <!--@mbg.generated-->
+    update prescription_detail
+    set prescription_id = #{prescriptionId,jdbcType=BIGINT},
+      registry_id = #{registryId,jdbcType=BIGINT},
+      drug_id = #{drugId,jdbcType=BIGINT},
+      patient_id = #{patientId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=INTEGER},
+      is_medicare = #{isMedicare,jdbcType=TINYINT},
+      price = #{price,jdbcType=DECIMAL},
+      pay_price = #{payPrice,jdbcType=DECIMAL},
+      medicare_price = #{medicarePrice,jdbcType=DECIMAL},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

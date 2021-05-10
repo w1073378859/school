@@ -1,0 +1,114 @@
+
+<div th:include="${#httpServletRequest.getContextPath()+'common/header'}"></div>
+<div class="clearfix"></div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>用户信息管理</h2>
+				<div class="clearfix"></div>
+			</div>
+
+			<div class="x_content">
+				<form method="post" th:action="${#httpServletRequest.getContextPath()+'/api/users/list'}">
+					<input type="hidden" name="pageNum" value="1" />
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_content">
+				<p class="text-muted font-13 m-b-30"></p>
+				<div id="datatable-responsive_wrapper"
+					 class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+					<div class="row">
+						<div class="col-sm-12">
+							<a th:href="${#httpServletRequest.getContextPath()+'/api/users/addUser'}" class="btn btn-success btn-sm">新增用户信息</a>
+							<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+								   cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
+								<thead>
+								<tr role="row">
+									<th class="sorting_asc" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="First name: activate to sort column descending"
+										aria-sort="ascending">编号</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										用户类型</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										账号</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										用户名</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										创建时间</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										创建人ID</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr role="row" class="odd" th:each="sysUser : ${pages.list }">
+										<td tabindex="0" class="sorting_1" th:text="${sysUser.id}"></td>
+										<td th:text="${sysUser.userTypeName }"></td>
+										<td th:text="${sysUser.account }"></td>
+										<td th:text="${sysUser.userName }"></td>
+										<td th:text="${#dates.format(sysUser.createdTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+										<td th:text="${sysUser.createdUserId }"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="dataTables_info" id="datatable-responsive_info"
+								 role="status" aria-live="polite">共 <span th:text="${pages.total }"></span>条记录
+								<span th:text="${pages.pageNum }"></span>/<span th:text="${pages.pages }"></span>页</div>
+						</div>
+						<div class="col-sm-7">
+							<div class="dataTables_paginate paging_simple_numbers"
+								 id="datatable-responsive_paginate">
+								<ul class="pagination">
+
+										<li th:if="${pages.pageNum} gt 1" class="paginate_button previous"><a
+												th:href="'javascript:page_nav('+document.forms[0]+','+1+')'"
+												aria-controls="datatable-responsive" data-dt-idx="0"
+												tabindex="0">首页</a>
+										</li>
+										<li th:if="${pages.pageNum} gt 1" class="paginate_button "><a
+												th:href="'javascript:page_nav('+document.forms[0]+','+${pages.pageNum-1}+')'"
+												aria-controls="datatable-responsive" data-dt-idx="1"
+												tabindex="0">上一页</a>
+										</li>
+
+										<li th:if="${pages.pageNum} lt ${pages.pages }" class="paginate_button "><a
+												th:href="'javascript:page_nav('+document.forms[0]+','+${pages.nextPage }+')'"
+												aria-controls="datatable-responsive" data-dt-idx="1"
+												tabindex="0">下一页</a>
+										</li>
+										<li th:if="${pages.pageNum} lt ${pages.pages }" class="paginate_button next"><a
+												th:href="'javascript:page_nav('+document.forms[0]+','+${pages.pages }+')'"
+												aria-controls="datatable-responsive" data-dt-idx="7"
+												tabindex="0">最后一页</a>
+										</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="${#httpServletRequest.getContextPath()+'common/footer'}"></div>
+<script th:src="${#httpServletRequest.getContextPath()+'/localjs/rollpage.js'}"></script>

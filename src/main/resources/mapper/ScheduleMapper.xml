@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.ScheduleMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.Schedule">
+    <!--@mbg.generated-->
+    <!--@Table schedule-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="department_id" jdbcType="BIGINT" property="departmentId" />
+    <result column="room_id" jdbcType="BIGINT" property="roomId" />
+    <result column="sign" jdbcType="TINYINT" property="sign" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="remaining_quantity" jdbcType="INTEGER" property="remainingQuantity" />
+    <result column="inquiry_time" jdbcType="DATE" property="inquiryTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, user_id, department_id, room_id, sign, quantity, remaining_quantity, inquiry_time, 
+    created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from schedule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getDoctorList" resultType="cn.test.pojo.Schedule">
+    SELECT
+    s.`id`,
+    s.user_id AS userId,
+    s.room_id AS roomId,
+    r.`name` AS roomName,
+    u.`user_name` AS doctorName,
+    s.remaining_quantity AS remainingQuantity,
+    s.inquiry_time AS inquiryTime
+    FROM `schedule` s
+    LEFT JOIN sys_users u ON s.`user_id` = u.`id`
+    LEFT JOIN room r ON r.`id` = s.`room_id`
+    where s.department_id = #{departmentId,jdbcType=BIGINT}
+    and s.sign = #{sign,jdbcType=TINYINT}
+   </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from schedule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.Schedule" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into schedule (user_id, department_id, room_id, 
+      sign, quantity, remaining_quantity, 
+      inquiry_time, created_time, updated_time
+      )
+    values (#{userId,jdbcType=BIGINT}, #{departmentId,jdbcType=BIGINT}, #{roomId,jdbcType=BIGINT}, 
+      #{sign,jdbcType=TINYINT}, #{quantity,jdbcType=INTEGER}, #{remainingQuantity,jdbcType=INTEGER}, 
+      #{inquiryTime,jdbcType=DATE}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.Schedule" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="roomId != null">
+        room_id,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="remainingQuantity != null">
+        remaining_quantity,
+      </if>
+      <if test="inquiryTime != null">
+        inquiry_time,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null">
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=TINYINT},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="remainingQuantity != null">
+        #{remainingQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryTime != null">
+        #{inquiryTime,jdbcType=DATE},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.test.pojo.Schedule">
+    <!--@mbg.generated-->
+    update schedule
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null">
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=TINYINT},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="remainingQuantity != null">
+        remaining_quantity = #{remainingQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryTime != null">
+        inquiry_time = #{inquiryTime,jdbcType=DATE},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.test.pojo.Schedule">
+    <!--@mbg.generated-->
+    update schedule
+    set user_id = #{userId,jdbcType=BIGINT},
+      department_id = #{departmentId,jdbcType=BIGINT},
+      room_id = #{roomId,jdbcType=BIGINT},
+      sign = #{sign,jdbcType=TINYINT},
+      quantity = #{quantity,jdbcType=INTEGER},
+      remaining_quantity = #{remainingQuantity,jdbcType=INTEGER},
+      inquiry_time = #{inquiryTime,jdbcType=DATE},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

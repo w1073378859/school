@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<div th:include="common/header.html"></div>
+<div class="page-title">
+    <div class="title_left">
+        <h3>
+            欢迎你：<span th:text="${session.userSession.userName}"></span><strong> | 用户类型：<span th:text="${session.userSession.userTypeName}"></span></strong>
+        </h3>
+        <img th:src="@{/images/main.jpg}">
+    </div>
+</div>
+<div class="clearfix"></div>
+<div th:include="common/footer.html" ></div>

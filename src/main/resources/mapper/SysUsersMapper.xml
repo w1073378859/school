@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.SysUsersMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.SysUsers">
+    <!--@mbg.generated-->
+    <!--@Table sys_users-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="department_id" jdbcType="BIGINT" property="departmentId" />
+    <result column="user_type" jdbcType="TINYINT" property="userType" />
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="created_user_id" jdbcType="BIGINT" property="createdUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, department_id, user_type, head_url, account, user_name, `password`, salt, created_time, 
+    updated_time, created_user_id
+  </sql>
+
+  <select id="queryByUsernameAndPassword" resultType="cn.test.pojo.SysUsers">
+    select * from sys_users where account = #{account} and password = #{password}
+  </select>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.SysUsers" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_users(
+          department_id,
+          user_type,
+          head_url,
+          account,
+          user_name,
+          password,
+          salt,
+          created_user_id,
+          created_time,
+          updated_time
+        )
+        values(
+          #{departmentId},
+          #{userType},
+          #{headUrl},
+          #{account},
+          #{userName},
+          #{password},
+          #{salt},
+          #{createdUserId},
+          #{createdTime},
+          #{updatedTime}
+        )
+  </insert>
+
+
+  <select id="getUserByAccount" resultType="cn.test.pojo.SysUsers" parameterType="java.lang.String">
+        select
+            t1.id as id,
+            t1.department_id as departmentId,
+            t1.user_type as userType,
+            t1.head_url as headUrl,
+            t1.account as account,
+            t1.user_name as userName,
+            t1.password as password,
+            t1.salt as salt,
+            t1.created_time as createdTime,
+            t1.updated_time as updatedTime,
+            t1.created_user_id as createdUserId,
+            t2.role_name as userTypeName
+        from sys_users t1 left join sys_roles t2 on t1.user_type = t2.id
+        where t1.account = #{account}
+    </select>
+
+    <select id="getUsersList" resultType="cn.test.pojo.SysUsers" parameterType="cn.test.pojo.SysUsers">
+        select
+            t1.id as id,
+            t1.department_id as departmentId,
+            t1.user_type as userType,
+            t1.head_url as headUrl,
+            t1.account as account,
+            t1.user_name as userName,
+            t1.created_time as createdTime,
+            t1.updated_time as updatedTime,
+            t1.created_user_id as createdUserId,
+            t2.role_name as userTypeName
+        from sys_users t1 left join sys_roles t2 on t1.user_type = t2.id
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and t1.id=#{id}
+            </if>
+            <if test="departmentId != null">
+                and t1.department_id=#{departmentId}
+            </if>
+            <if test="userType != null">
+                and t1.user_type=#{userType}
+            </if>
+            <if test="headUrl != null">
+                and t1.head_url=#{headUrl}
+            </if>
+            <if test="account != null">
+                and t1.account=#{account}
+            </if>
+            <if test="userName != null">
+                and t1.user_name=#{userName}
+            </if>
+            <if test="password != null">
+                and t1.password=#{password}
+            </if>
+            <if test="createdUserId != null">
+                and t1.created_user_id=#{createdUserId}
+            </if>
+        </trim>
+
+    </select>
+    <select id="getUserUrl" resultType="java.lang.String">
+        select head_url as headUrl from sys_users where id = #{userId}
+
+    </select>
+    <select id="getUserById" resultType="cn.test.pojo.SysUsers">
+        select
+            t1.id as id,
+            t1.department_id as departmentId,
+            t1.user_type as userType,
+            t1.head_url as headUrl,
+            t1.account as account,
+            t1.user_name as userName,
+            t1.password as password,
+            t1.salt as salt,
+            t1.created_time as createdTime,
+            t1.updated_time as updatedTime,
+            t1.created_user_id as createdUserId
+        from sys_users t1
+        where t1.id = #{id}
+
+     </select>
+
+
+     <select id="getDoctorList" resultType="map">
+
+      SELECT id,user_name AS userName FROM sys_users
+      <where>
+         1=1
+        <if test="departmentId != null and departmentId != 0">
+        and department_id = #{departmentId}
+        </if>
+        <if test="userType != null and userType != 0">
+        and user_type = #{userType};
+        </if>
+        </where>
+      </select>
+
+</mapper>

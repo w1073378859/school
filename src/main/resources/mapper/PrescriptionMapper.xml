@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.PrescriptionMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.Prescription">
+    <!--@mbg.generated-->
+    <!--@Table prescription-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="registry_id" jdbcType="BIGINT" property="registryId" />
+    <result column="patient_id" jdbcType="BIGINT" property="patientId" />
+    <result column="pay_status" jdbcType="TINYINT" property="payStatus" />
+    <result column="is_fetch_medicine" jdbcType="TINYINT" property="isFetchMedicine" />
+    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="medicare_fee" jdbcType="DECIMAL" property="medicareFee" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, registry_id, patient_id, pay_status, is_fetch_medicine, fee, pay_fee, medicare_fee, 
+    pay_time, created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from prescription
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from prescription
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.Prescription" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into prescription (registry_id, patient_id, pay_status, 
+      is_fetch_medicine, fee, pay_fee, 
+      medicare_fee, pay_time, created_time, 
+      updated_time)
+    values (#{registryId,jdbcType=BIGINT}, #{patientId,jdbcType=BIGINT}, #{payStatus,jdbcType=TINYINT}, 
+      #{isFetchMedicine,jdbcType=TINYINT}, #{fee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, 
+      #{medicareFee,jdbcType=DECIMAL}, #{payTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.Prescription" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into prescription
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="registryId != null">
+        registry_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="isFetchMedicine != null">
+        is_fetch_medicine,
+      </if>
+      <if test="fee != null">
+        fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="medicareFee != null">
+        medicare_fee,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="registryId != null">
+        #{registryId,jdbcType=BIGINT},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isFetchMedicine != null">
+        #{isFetchMedicine,jdbcType=TINYINT},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="medicareFee != null">
+        #{medicareFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.test.pojo.Prescription">
+    <!--@mbg.generated-->
+    update prescription
+    <set>
+      <if test="registryId != null">
+        registry_id = #{registryId,jdbcType=BIGINT},
+      </if>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isFetchMedicine != null">
+        is_fetch_medicine = #{isFetchMedicine,jdbcType=TINYINT},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="medicareFee != null">
+        medicare_fee = #{medicareFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.test.pojo.Prescription">
+    <!--@mbg.generated-->
+    update prescription
+    set registry_id = #{registryId,jdbcType=BIGINT},
+      patient_id = #{patientId,jdbcType=BIGINT},
+      pay_status = #{payStatus,jdbcType=TINYINT},
+      is_fetch_medicine = #{isFetchMedicine,jdbcType=TINYINT},
+      fee = #{fee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      medicare_fee = #{medicareFee,jdbcType=DECIMAL},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

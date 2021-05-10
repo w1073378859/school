@@ -1,0 +1,185 @@
+
+<div th:include="${#httpServletRequest.getContextPath()+'common/header'}"></div>
+<div class="clearfix"></div>
+<div class="row" id="app">
+	<div class="col-md-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>挂号信息管理</h2>
+				<div class="clearfix"></div>
+			</div>
+
+			<div class="x_content">
+				<form method="post" th:action="@{/api/register/registerList}" ref="getRegisterList">
+					<input type="hidden" name="pageNum" th:value="1"/>
+					<input type="hidden" id="queryDepartmentId">
+					<input type="hidden" id="queryDoctorId">
+			    <ul>
+					<li>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">身份证号</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input name="idCard" type="text" v-model="idCard" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+					</li>
+
+					<li>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">就诊科室</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="departmentId" name="departmentId" v-model="departmentId" class="form-control">
+        						</select>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="form-group">
+
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">挂号医师</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="doctorId" name="userId" v-model="doctorId" class="form-control">
+									<option value="">--请先选择就诊科室--</option>
+        						</select>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">挂号单状态</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="status" name="status" v-model="status" class="form-control" required>
+									<option value="0">--请选择--</option>
+									<option value="1">已挂号，未问诊</option>
+									<option value="2">正在问诊</option>
+									<option value="3">问诊结束</option>
+        						</select>
+							</div>
+						</div>
+					</li>
+<!--					<li><button type="submit" class="btn btn-primary"> 查 &nbsp;&nbsp;&nbsp;&nbsp;询 </button></li>-->
+				</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_content">
+				<p class="text-muted font-13 m-b-30"></p>
+				<div id="datatable-responsive_wrapper"
+					 class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+								   cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
+								<thead>
+								<tr role="row">
+									<th class="sorting_asc" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="First name: activate to sort column descending"
+										aria-sort="ascending">挂号单编号</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										病人姓名</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										性别</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										身份证号</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										就诊科室</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										挂号医师</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										挂号时间</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										创建时间</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										aria-label="Last name: activate to sort column ascending">
+										挂号单状态</th>
+									<th class="sorting" tabindex="0"
+										aria-controls="datatable-responsive" rowspan="1" colspan="1"
+										style="width: 124px;"
+										aria-label="Last name: activate to sort column ascending">
+										操作</th>
+								</tr>
+								</thead>
+								<tbody id="RegisterList">
+									<tr role="row" class="odd"  v-for="(item,i) in list" >
+										<td tabindex="0" class="sorting_1">{{item.id}}</td>
+										<td>{{item.patientName }}</td>
+										<td>{{item.patientSexName }}</td>
+										<td>{{item.patientIdCard }}</td>
+										<td>{{item.departmentName }}</td>
+										<td>{{item.doctorName }}</td>
+										<td>{{item.registryTime}}</td>
+										<td>{{item.createdTime}}</td>
+										<td v-if="item.status ==1">已挂号，未问诊</td>
+										<td v-else-if="item.status ==2">正在问诊</td>
+										<td v-else-if="item.status ==3">问诊结束</td>
+										<td>
+											<div class="btn-group">
+												<button @click="rsView(item.id)" type="button" class="viewRegister">查看详情</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="dataTables_info" id="datatable-responsive_info"
+								 role="status" aria-live="polite">共{{pages.total }}条记录
+								{{pages.pageNum }}/{{pages.pages }}页</div>
+						</div>
+						<div class="col-sm-7">
+							<div class="dataTables_paginate paging_simple_numbers"
+								 id="datatable-responsive_paginate">
+								<ul class="pagination">
+
+										<li class="paginate_button previous" v-if="pages.pageNum > 1"><a href="javascript:app.getRegisterList(app.$data.pages.firstPage)"
+												aria-controls="datatable-responsive" data-dt-idx="0"
+												tabindex="0">首页</a>
+										</li>
+										<li class="paginate_button " v-if="pages.pageNum > 1"><a href="javascript:app.getRegisterList(app.$data.pages.prePage)"
+												aria-controls="datatable-responsive" data-dt-idx="1"
+												tabindex="0">上一页</a>
+										</li>
+
+										<li class="paginate_button " v-if="pages.pageNum < pages.pages "><a href="javascript:app.getRegisterList(app.$data.pages.nextPage)"
+												aria-controls="datatable-responsive" data-dt-idx="1"
+												tabindex="0">下一页</a>
+										</li>
+										<li class="paginate_button next" v-if="pages.pageNum < pages.pages "><a href="javascript:app.getRegisterList(app.$data.pages.pages)"
+												aria-controls="datatable-responsive" data-dt-idx="7"
+												tabindex="0">最后一页</a>
+										</li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="${#httpServletRequest.getContextPath()+'common/footer'}"></div>
+<script th:src="${#httpServletRequest.getContextPath()+'/localjs/rollpage.js'}"></script>
+<script th:src="${#httpServletRequest.getContextPath()+'/localjs/registerList.js'}"></script>

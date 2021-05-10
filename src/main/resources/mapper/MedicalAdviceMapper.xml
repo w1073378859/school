@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.MedicalAdviceMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.MedicalAdvice">
+    <!--@mbg.generated-->
+    <!--@Table medical_advice-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="registry_id" jdbcType="BIGINT" property="registryId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="chief_complaint" jdbcType="VARCHAR" property="chiefComplaint" />
+    <result column="diagnosis" jdbcType="VARCHAR" property="diagnosis" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, registry_id, user_id, chief_complaint, diagnosis, created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from medical_advice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="medicalAdviceById" resultType="cn.test.pojo.MedicalAdvice">
+  SELECT m.`id`,
+        m.`chief_complaint` as chiefComplaint ,
+        m.`diagnosis`,
+        s.`user_name` as doctorName
+        FROM `medical_advice` m
+    LEFT JOIN `sys_users` s ON s.`id` = m.`user_id`
+    where m.registry_id = #{rId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from medical_advice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.MedicalAdvice" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into medical_advice (registry_id, user_id, chief_complaint, 
+      diagnosis, created_time, updated_time
+      )
+    values (#{registryId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{chiefComplaint,jdbcType=VARCHAR}, 
+      #{diagnosis,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.MedicalAdvice" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into medical_advice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="registryId != null">
+        registry_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="chiefComplaint != null">
+        chief_complaint,
+      </if>
+      <if test="diagnosis != null">
+        diagnosis,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="registryId != null">
+        #{registryId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="chiefComplaint != null">
+        #{chiefComplaint,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosis != null">
+        #{diagnosis,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.test.pojo.MedicalAdvice">
+    <!--@mbg.generated-->
+    update medical_advice
+    <set>
+      <if test="registryId != null">
+        registry_id = #{registryId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="chiefComplaint != null">
+        chief_complaint = #{chiefComplaint,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosis != null">
+        diagnosis = #{diagnosis,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.test.pojo.MedicalAdvice">
+    <!--@mbg.generated-->
+    update medical_advice
+    set registry_id = #{registryId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      chief_complaint = #{chiefComplaint,jdbcType=VARCHAR},
+      diagnosis = #{diagnosis,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

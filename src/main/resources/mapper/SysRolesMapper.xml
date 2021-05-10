@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.SysRolesMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.SysRoles">
+    <!--@mbg.generated-->
+    <!--@Table sys_roles-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="is_lock" jdbcType="TINYINT" property="isLock" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, role_name, description, is_lock, created_time, updated_time
+  </sql>
+
+  <select id="getRoleList" resultType="cn.test.pojo.SysRoles">
+    select id,role_name as roleName from sys_roles
+  </select>
+
+</mapper>

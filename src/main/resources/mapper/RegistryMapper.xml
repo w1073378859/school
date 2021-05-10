@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.test.mapper.RegistryMapper">
+  <resultMap id="BaseResultMap" type="cn.test.pojo.Registry">
+    <!--@mbg.generated-->
+    <!--@Table registry-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="patient_id" jdbcType="BIGINT" property="patientId" />
+    <result column="schedule_id" jdbcType="BIGINT" property="scheduleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="department_id" jdbcType="BIGINT" property="departmentId" />
+    <result column="room_id" jdbcType="BIGINT" property="roomId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="medicare_fee" jdbcType="DECIMAL" property="medicareFee" />
+    <result column="is_medicare" jdbcType="TINYINT" property="isMedicare" />
+    <result column="registry_time" jdbcType="TIMESTAMP" property="registryTime" />
+    <result column="consultation_time" jdbcType="TIMESTAMP" property="consultationTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, patient_id, schedule_id, user_id, department_id, room_id, `status`, fee, pay_fee, 
+    medicare_fee, is_medicare, registry_time, consultation_time, created_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from registry
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="registryList" resultType="map">
+   SELECT r.`id`,
+        p.`name` AS patientName,
+        IF(p.`sex`=2,'男','女') AS patientSexName,
+        p.`id_card` AS patientIdCard,
+        d.`name` AS departmentName,
+        su.`user_name` AS `doctorName`,
+        r.`registry_time` AS registryTime,
+        r.`created_time` AS createdTime,
+        r.`status`
+     FROM registry r
+      LEFT JOIN `patient` p ON r.`patient_id` =p.`id`
+      LEFT JOIN `schedule` s ON r.`schedule_id` = s.`id`
+     LEFT JOIN `department` d ON d.`id`=s.`department_id`
+     LEFT JOIN `sys_users` su ON su.`id` = s.`user_id`
+     <trim prefix="where" prefixOverrides="AND">
+        <if test="idCard != null and idCard != ''">
+            p.`id_card` like concat('%',#{idCard},'%')
+        </if>
+        <if test="departmentId != 0">
+           AND s.`department_id` = #{departmentId}
+        </if>
+        <if test="userId != 0">
+           AND su.`id` = #{userId}
+        </if>
+        <if test="status != 0">
+           AND r.`status` = #{status}
+        </if>
+    </trim>
+     order by r.`created_time` desc
+  </select>
+
+  <select id="registryListById" resultType="map">
+    SELECT
+        p.`name` AS patientName,
+        p.`id_card` AS patientIdCard,
+        IF(p.`sex`=2,'男','女') AS patientSexName,
+        p.`birthday` AS patientBirthday,
+        p.`address` AS patientAddress,
+        r.`id`,
+        d.`name` AS departmentName,
+        ro.`name` AS roomName,
+        s.`user_name` AS doctorName,
+        r.`consultation_time` AS consultationTime,
+        r.`registry_time` AS registryTime
+	FROM `patient` p
+	LEFT JOIN `registry` r ON p.`id` = r.`patient_id`
+	LEFT JOIN `department` d ON d.`id` = r.`department_id`
+	LEFT JOIN `room` ro ON ro.`id` = r.`room_id`
+	LEFT JOIN `sys_users` s ON s.`id` = r.`user_id`
+	where r.`id` =#{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from registry
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.Registry" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into registry (patient_id, schedule_id, user_id, 
+      department_id, room_id, `status`, 
+      fee, pay_fee, medicare_fee, 
+      is_medicare, registry_time, consultation_time, 
+      created_time, updated_time)
+    values (#{patientId,jdbcType=BIGINT}, #{scheduleId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{departmentId,jdbcType=BIGINT}, #{roomId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, 
+      #{fee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{medicareFee,jdbcType=DECIMAL}, 
+      #{isMedicare,jdbcType=TINYINT}, #{registryTime,jdbcType=TIMESTAMP}, #{consultationTime,jdbcType=TIMESTAMP}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.test.pojo.Registry" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into registry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="scheduleId != null">
+        schedule_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="roomId != null">
+        room_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="fee != null">
+        fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="medicareFee != null">
+        medicare_fee,
+      </if>
+      <if test="isMedicare != null">
+        is_medicare,
+      </if>
+      <if test="registryTime != null">
+        registry_time,
+      </if>
+      <if test="consultationTime != null">
+        consultation_time,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="patientId != null">
+        #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleId != null">
+        #{scheduleId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null">
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="medicareFee != null">
+        #{medicareFee,jdbcType=DECIMAL},
+      </if>
+      <if test="isMedicare != null">
+        #{isMedicare,jdbcType=TINYINT},
+      </if>
+      <if test="registryTime != null">
+        #{registryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consultationTime != null">
+        #{consultationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.test.pojo.Registry">
+    <!--@mbg.generated-->
+    update registry
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleId != null">
+        schedule_id = #{scheduleId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null">
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="medicareFee != null">
+        medicare_fee = #{medicareFee,jdbcType=DECIMAL},
+      </if>
+      <if test="isMedicare != null">
+        is_medicare = #{isMedicare,jdbcType=TINYINT},
+      </if>
+      <if test="registryTime != null">
+        registry_time = #{registryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consultationTime != null">
+        consultation_time = #{consultationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.test.pojo.Registry">
+    <!--@mbg.generated-->
+    update registry
+    set patient_id = #{patientId,jdbcType=BIGINT},
+      schedule_id = #{scheduleId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      department_id = #{departmentId,jdbcType=BIGINT},
+      room_id = #{roomId,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=TINYINT},
+      fee = #{fee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      medicare_fee = #{medicareFee,jdbcType=DECIMAL},
+      is_medicare = #{isMedicare,jdbcType=TINYINT},
+      registry_time = #{registryTime,jdbcType=TIMESTAMP},
+      consultation_time = #{consultationTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
